@@ -20,8 +20,8 @@ export class Users {
     @Column()
     created_at: Date;
 
-    @Column()
-    modified_at: Date;
+    @Column({ nullable: true })
+    modified_at?: Date
 
     @OneToMany(() => Events, (event) => event.organizer)
     events: Events[]
