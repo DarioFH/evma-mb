@@ -1,4 +1,4 @@
-import { Column, Double, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Double, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm"
 import {Users} from './users.entity'
 import {CustomersTicket} from './customers-ticket.entity'
 
@@ -30,7 +30,7 @@ export class Events {
     created_at: Date;
     
     @Column()
-    modified: Date;
+    modified_at: Date;
     
     @ManyToOne(() => Users, (user) => user.events)
     organizer: Users

@@ -16,6 +16,8 @@ export class UserService {
     private encryptUtil: EncryptUtils
   ){}
 
+  msgErrorUser: string = 'Usuário não localizado!'
+
   async create(createUserDto: CreateUserDto) {
     const user = this.userRepository.create(createUserDto)
     
@@ -27,16 +29,16 @@ export class UserService {
     this.userRepository.save(user)
   }
 
-  findAll() {
-    const users = this.userRepository.find()
+  async findAll() {
+    const users = await this.userRepository.find()
     return users
   }
 
-  findOne(id: number) {
-    const user = this.userRepository.findOneBy({id: id})
+  async findOne(id: number) {
+    const user = await this.userRepository.findOneBy({id: id})
 
     if(!user){
-      throw new NotFoundException(`Usuário não localizado!`)
+      throw new NotFoundException(this.msgErrorUser)
     }
     return user
   }
@@ -49,7 +51,7 @@ export class UserService {
     const user = await this.userRepository.preload({id: id, ...uuser})
     user.modified_at = new Date();
 
-    if(!user){throw new NotFoundException('Usuário não localizado!')}
+    if(!user){throw new NotFoundException(this.msgErrorUser)}
 
     return this.userRepository.save(user)
   }
@@ -57,7 +59,7 @@ export class UserService {
   async remove(id: number) {
     const user = await this.userRepository.findOneBy({id: id})
 
-    if(!user){throw new NotFoundException('Usuário não localizado!')}
+    if(!user){throw new NotFoundException(this.msgErrorUser)}
 
     return this.userRepository.remove(user)
   }
