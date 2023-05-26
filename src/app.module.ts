@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { EventModule } from './event/event.module';
+import { TicketModule } from './ticket/ticket.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { EventModule } from './event/event.module';
     }),
     UserModule,
     EventModule,
+    TicketModule,
   ],
   controllers: [],
   providers: [AppService],

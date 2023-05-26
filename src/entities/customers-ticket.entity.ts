@@ -18,7 +18,7 @@ export class CustomersTicket {
     price: number;
 
     @Column()
-    status: TicketStatus;
+    status: string;
 
     @Column()
     created_at: Date;

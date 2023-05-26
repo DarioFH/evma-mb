@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import { randomUUID } from 'crypto';
+
 
 @Injectable()
 export class EncryptUtils {
@@ -14,5 +16,10 @@ export class EncryptUtils {
     async compareHash(pass: string, hash: string): Promise<boolean> {
         const check = await bcrypt.compare(pass, hash);
         return check
+    }
+
+    async generateUuid(): Promise<string> {
+        const hash = randomUUID()
+        return hash;
     }
 }
