@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -62,5 +62,21 @@ export class UserService {
     if(!user){throw new NotFoundException(this.msgErrorUser)}
 
     return this.userRepository.remove(user)
+  }
+
+
+  async auth(email: string, password: string) {
+    const user = await this.userRepository.findOneBy({email: email})
+    
+    if(!user) {
+      throw new UnauthorizedException('Ops, usuário informado está incorreto!')
+    }
+    const authenticate = await this.encryptUtil.compareHash(password, user.password)
+    if(authenticate === true){
+      return user;
+    }else{
+      throw new UnauthorizedException('Ops, parece que a senha está incorreta!')
+    }
+
   }
 }
